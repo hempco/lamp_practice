@@ -3,6 +3,7 @@ require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'db.php';
 
 function get_user_carts($db, $user_id){
+  get_db_connect();  // prepareメソッドへの書き換え
   $sql = "
     SELECT
       items.item_id,
@@ -23,10 +24,12 @@ function get_user_carts($db, $user_id){
     WHERE
       carts.user_id = {$user_id}
   ";
+
   return fetch_all_query($db, $sql);
 }
 
 function get_user_cart($db, $user_id, $item_id){
+  get_db_connect();  // prepareメソッドへの書き換え
   $sql = "
     SELECT
       items.item_id,
@@ -51,7 +54,6 @@ function get_user_cart($db, $user_id, $item_id){
   ";
 
   return fetch_query($db, $sql);
-
 }
 
 function add_cart($db, $user_id, $item_id ) {
@@ -63,6 +65,7 @@ function add_cart($db, $user_id, $item_id ) {
 }
 
 function insert_cart($db, $user_id, $item_id, $amount = 1){
+  get_db_connect();  // prepareメソッドへの書き換え
   $sql = "
     INSERT INTO
       carts(
@@ -77,6 +80,7 @@ function insert_cart($db, $user_id, $item_id, $amount = 1){
 }
 
 function update_cart_amount($db, $cart_id, $amount){
+  get_db_connect();  // prepareメソッドへの書き換え
   $sql = "
     UPDATE
       carts
@@ -90,6 +94,7 @@ function update_cart_amount($db, $cart_id, $amount){
 }
 
 function delete_cart($db, $cart_id){
+  get_db_connect();  // prepareメソッドへの書き換え
   $sql = "
     DELETE FROM
       carts
@@ -119,6 +124,7 @@ function purchase_carts($db, $carts){
 }
 
 function delete_user_carts($db, $user_id){
+  get_db_connect();  // prepareメソッドへの書き換え
   $sql = "
     DELETE FROM
       carts

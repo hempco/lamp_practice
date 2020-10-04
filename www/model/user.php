@@ -3,6 +3,7 @@ require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'db.php';
 
 function get_user($db, $user_id){
+  get_db_connect();  // prepareメソッドへの書き換え
   $sql = "
     SELECT
       user_id, 
@@ -20,6 +21,7 @@ function get_user($db, $user_id){
 }
 
 function get_user_by_name($db, $name){
+  get_db_connect();  // prepareメソッドへの書き換え
   $sql = "
     SELECT
       user_id, 
@@ -101,6 +103,7 @@ function is_valid_password($password, $password_confirmation){
 }
 
 function insert_user($db, $name, $password){
+  get_db_connect();  // prepareメソッドへの書き換え
   $sql = "
     INSERT INTO
       users(name, password)
