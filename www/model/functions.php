@@ -19,10 +19,7 @@ function get_get($name){
 
 function get_post($name){
   if(isset($_POST[$name]) === true){
-    // csrfトークンのチェック
-    if(is_valid_csrf_token($_POST[$token])){
       return $_POST[$name];
-    };
   };
   return '';
 }

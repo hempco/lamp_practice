@@ -34,8 +34,7 @@
               <form method="post" action="cart_change_amount.php">
                 <input type="number" name="amount" value="<?php print(h($cart['amount'])); ?>"><!-- エスケープ処理の実装 -->
                 個
-                <php function get_csrf_token() ?> <!-- csrfトークンの生成 -->
-                <input type="hidden" value=$token> <!-- csrfトークンの埋め込み -->
+                <input type="hidden" name="token" value="<?php print($token); ?>"> <!-- csrfトークンの埋め込み -->
                 <input type="submit" value="変更" class="btn btn-secondary">
                 <input type="hidden" name="cart_id" value="<?php print(h($cart['cart_id'])); ?>"><!-- エスケープ処理の実装 -->
               </form>
