@@ -28,7 +28,6 @@ function get_user_carts($db, $user_id){
 }
 
 function get_user_cart($db, $user_id, $item_id){
-  get_db_connect();  // prepareメソッドへの書き換え
   $sql = "
     SELECT
       items.item_id,
@@ -47,12 +46,12 @@ function get_user_cart($db, $user_id, $item_id){
     ON
       carts.item_id = items.item_id
     WHERE
-      carts.user_id = {$user_id}
+      carts.user_id = ?
     AND
-      items.item_id = {$item_id}
+      items.item_id = ?
   ";
 
-  return fetch_query($db, $sql);
+  return fetch_query($db, $sql, [$user_id, $item_id]);
 }
 
 function add_cart($db, $user_id, $item_id ) {
@@ -64,7 +63,6 @@ function add_cart($db, $user_id, $item_id ) {
 }
 
 function insert_cart($db, $user_id, $item_id, $amount = 1){
-  get_db_connect();  // prepareメソッドへの書き換え
   $sql = "
     INSERT INTO
       carts(
@@ -72,37 +70,35 @@ function insert_cart($db, $user_id, $item_id, $amount = 1){
         user_id,
         amount
       )
-    VALUES({$item_id}, {$user_id}, {$amount})
+    VALUES(?, ?, ?)
   ";
 
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, [$item_id], [$user_id, $amount]);
 }
 
 function update_cart_amount($db, $cart_id, $amount){
-  get_db_connect();  // prepareメソッドへの書き換え
   $sql = "
     UPDATE
       carts
     SET
-      amount = {$amount}
+      amount = ?
     WHERE
-      cart_id = {$cart_id}
+      cart_id = ?
     LIMIT 1
   ";
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, [$amount, $cart_id]);
 }
 
 function delete_cart($db, $cart_id){
-  get_db_connect();  // prepareメソッドへの書き換え
   $sql = "
     DELETE FROM
       carts
     WHERE
-      cart_id = {$cart_id}
+      cart_id = ?
     LIMIT 1
   ";
 
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, [$cart_id]);
 }
 
 function purchase_carts($db, $carts){
@@ -123,15 +119,14 @@ function purchase_carts($db, $carts){
 }
 
 function delete_user_carts($db, $user_id){
-  get_db_connect();  // prepareメソッドへの書き換え
   $sql = "
     DELETE FROM
       carts
     WHERE
-      user_id = {$user_id}
+      user_id = ?
   ";
 
-  execute_query($db, $sql);
+  execute_query($db, $sql, [$user_id]);
 }
 
 

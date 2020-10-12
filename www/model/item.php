@@ -5,7 +5,6 @@ require_once MODEL_PATH . 'db.php';
 // DB利用
 
 function get_item($db, $item_id){
-  get_db_connect();  // prepareメソッドへの書き換え
   $sql = "
     SELECT
       item_id, 
@@ -17,14 +16,13 @@ function get_item($db, $item_id){
     FROM
       items
     WHERE
-      item_id = {$item_id}
+      item_id = ?
   ";
 
-  return fetch_query($db, $sql);
+  return fetch_query($db, $sql, [$item_id]);
 }
 
 function get_items($db, $is_open = false){
-  get_db_connect();  // prepareメソッドへの書き換え
   $sql = '
     SELECT
       item_id, 
@@ -75,7 +73,6 @@ function regist_item_transaction($db, $name, $price, $stock, $status, $image, $f
 
 function insert_item($db, $name, $price, $stock, $filename, $status){
   $status_value = PERMITTED_ITEM_STATUSES[$status];
-  get_db_connect();  // prepareメソッドへの書き換え
   $sql = "
     INSERT INTO
       items(
@@ -85,40 +82,38 @@ function insert_item($db, $name, $price, $stock, $filename, $status){
         image,
         status
       )
-    VALUES('{$name}', {$price}, {$stock}, '{$filename}', {$status_value});
+    VALUES(?, ?, ?, ?, ?);
   ";
 
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, [$name, $price, $stock, $filename, $status_value]);
 }
 
 function update_item_status($db, $item_id, $status){
-  get_db_connect();  // prepareメソッドへの書き換え
   $sql = "
     UPDATE
       items
     SET
-      status = {$status}
+      status = ?
     WHERE
-      item_id = {$item_id}
+      item_id = ?
     LIMIT 1
   ";
   
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, [$status, $item_id]);
 }
 
 function update_item_stock($db, $item_id, $stock){
-  get_db_connect();  // prepareメソッドへの書き換え
   $sql = "
     UPDATE
       items
     SET
-      stock = {$stock}
+      stock = ?
     WHERE
-      item_id = {$item_id}
+      item_id = ?
     LIMIT 1
   ";
   
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, [$stock, $item_id]);
 }
 
 function destroy_item($db, $item_id){
@@ -137,16 +132,15 @@ function destroy_item($db, $item_id){
 }
 
 function delete_item($db, $item_id){
-  get_db_connect();  // prepareメソッドへの書き換え
   $sql = "
     DELETE FROM
       items
     WHERE
-      item_id = {$item_id}
+      item_id = ?
     LIMIT 1
   ";
   
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, [$item_id]);
 }
 
 
