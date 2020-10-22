@@ -25,6 +25,8 @@
         <label for="password_confirmation">パスワード（確認用）: </label>
         <input type="password" name="password_confirmation" id="password_confirmation" class="form-control">
       </div>
+      <php function get_csrf_token() ?> <!-- csrfトークンの生成 -->
+      <input type="hidden" value=$token> <!-- csrfトークンの埋め込み -->
       <input type="submit" value="登録" class="btn btn-primary">
     </form>
   </div>

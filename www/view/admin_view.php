@@ -43,7 +43,8 @@
           <option value="close">非公開</option>
         </select>
       </div>
-      
+      <php function get_csrf_token() ?> <!-- csrfトークンの生成 -->
+      <input type="hidden" value=$token> <!-- csrfトークンの埋め込み -->
       <input type="submit" value="商品追加" class="btn btn-primary">
     </form>
 
@@ -72,6 +73,8 @@
                   <input  type="text" name="stock" value="<?php print(h($item['stock'])); ?>"><!-- エスケープ処理の実装 -->
                   個
                 </div>
+                <php function get_csrf_token() ?> <!-- csrfトークンの生成 -->
+                <input type="hidden" value=$token> <!-- csrfトークンの埋め込み -->
                 <input type="submit" value="変更" class="btn btn-secondary">
                 <input type="hidden" name="item_id" value="<?php print(h($item['item_id'])); ?>"><!-- エスケープ処理の実装 -->
               </form>
@@ -86,11 +89,15 @@
                   <input type="submit" value="非公開 → 公開" class="btn btn-secondary">
                   <input type="hidden" name="changes_to" value="open">
                 <?php } ?>
+                <php function get_csrf_token() ?> <!-- csrfトークンの生成 -->
+                <input type="hidden" value=$token> <!-- csrfトークンの埋め込み -->
                 <input type="hidden" name="item_id" value="<?php print(h($item['item_id'])); ?>"><!-- エスケープ処理の実装 -->
               </form>
 
               <form method="post" action="admin_delete_item.php">
                 <input type="submit" value="削除" class="btn btn-danger delete">
+                <php function get_csrf_token() ?> <!-- csrfトークンの生成 -->
+                <input type="hidden" value=$token> <!-- csrfトークンの埋め込み -->
                 <input type="hidden" name="item_id" value="<?php print(h($item['item_id'])); ?>"><!-- エスケープ処理の実装 -->
               </form>
 
