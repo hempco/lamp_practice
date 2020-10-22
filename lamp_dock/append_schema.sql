@@ -2,7 +2,7 @@
 --
 
 CREATE TABLE `purchase_history` (
-  `history_id` int(11) NOT NULL,
+  `history_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `purchased_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY(history_id)
@@ -12,8 +12,8 @@ CREATE TABLE `purchase_history` (
 -- テーブルの構造 `purchase_detail`
 --
 
-CREATE TABLE `purchase_history` (
-  `detail_id` int(11) NOT NULL,
+CREATE TABLE `purchase_detail` (
+  `detail_id` int(11) NOT NULL AUTO_INCREMENT,
   `history_id` int(11) NOT NULL,
   `item_id` int(11) NOT NULL,
   `purchased_price` int(11) NOT NULL,
