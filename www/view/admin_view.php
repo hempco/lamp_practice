@@ -93,7 +93,7 @@
 
               <form method="post" action="admin_delete_item.php">
                 <input type="submit" value="削除" class="btn btn-danger delete">
-                <input type="hidden" name="token" value=$token> <!-- csrfトークンの埋め込み -->
+                <input type="hidden" name="token" value=<?php print($token); ?>> <!-- csrfトークンの埋め込み -->
                 <input type="hidden" name="item_id" value="<?php print(h($item['item_id'])); ?>"><!-- エスケープ処理の実装 -->
               </form>
 
