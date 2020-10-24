@@ -43,7 +43,7 @@
           <option value="close">非公開</option>
         </select>
       </div>
-      <input type="hidden" name="token" value=$token> <!-- csrfトークンの埋め込み -->
+      <input type="hidden" name="token" value=<?php print($token); ?>> <!-- csrfトークンの埋め込み -->
       <input type="submit" value="商品追加" class="btn btn-primary">
     </form>
 
@@ -72,7 +72,7 @@
                   <input  type="text" name="stock" value="<?php print(h($item['stock'])); ?>"><!-- エスケープ処理の実装 -->
                   個
                 </div>
-                <input type="hidden" name="token" value=$token> <!-- csrfトークンの埋め込み -->
+                <input type="hidden" name="token" value=<?php print($token); ?>> <!-- csrfトークンの埋め込み -->
                 <input type="submit" value="変更" class="btn btn-secondary">
                 <input type="hidden" name="item_id" value="<?php print(h($item['item_id'])); ?>"><!-- エスケープ処理の実装 -->
               </form>
@@ -87,7 +87,7 @@
                   <input type="submit" value="非公開 → 公開" class="btn btn-secondary">
                   <input type="hidden" name="changes_to" value="open">
                 <?php } ?>
-                <input type="hidden" name="token" value=$token> <!-- csrfトークンの埋め込み -->
+                <input type="hidden" name="token" value=<?php print($token); ?>> <!-- csrfトークンの埋め込み -->
                 <input type="hidden" name="item_id" value="<?php print(h($item['item_id'])); ?>"><!-- エスケープ処理の実装 -->
               </form>
 
