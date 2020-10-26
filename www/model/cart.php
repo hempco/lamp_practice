@@ -185,7 +185,7 @@ function insert_detail($db, $history_id, $item_id, $price, $amount){
         history_id,
         item_id,
         purchased_price,
-        purchaced_amount
+        purchased_amount
       )
     VALUES(?, ?, ?, ?)
   ";
