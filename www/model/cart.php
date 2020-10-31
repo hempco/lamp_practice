@@ -185,7 +185,7 @@ function insert_detail($db, $history_id, $item_id, $price, $amount){
         history_id,
         item_id,
         purchased_price,
-        purchaced_amount
+        purchased_amount
       )
     VALUES(?, ?, ?, ?)
   ";
@@ -207,4 +207,71 @@ function create_history($db, $carts){
     }
   }
   return true;
+}
+
+
+function get_histories($db, $user_id=null){
+  $params = [];
+  $sql = "
+    SELECT 
+      purchase_history.history_id,
+      purchased_date,
+      sum(purchased_price * purchased_amount) AS total_price
+    FROM purchase_history JOIN purchase_detail ON purchase_history.history_id=purchase_detail.history_id";
+  if($user_id !== null){
+    $sql.= "
+      WHERE
+        user_id=?";
+      $params[] = $user_id;
+  }
+  $sql.= " 
+    GROUP BY
+      purchase_history.history_id";
+
+  return fetch_all_query($db, $sql, $params);
+}
+
+
+function get_history($db, $history_id, $user_id=null){
+  $params = [$history_id];
+  $sql = "
+    SELECT 
+      purchase_history.history_id,
+      purchased_date,
+      sum(purchased_price * purchased_amount) AS total_price
+    FROM purchase_history JOIN purchase_detail ON purchase_history.history_id=purchase_detail.history_id
+    WHERE purchase_history.history_id=?";
+  if($user_id !== null){
+    $sql.= "
+      AND
+        user_id=?";
+      $params[] = $user_id;
+  }
+  $sql.= " 
+    GROUP BY
+      purchase_history.history_id";
+
+  return fetch_query($db, $sql, $params);
+}
+
+
+function get_details($db, $history_id, $user_id=null){
+  $params = [$history_id];
+  $sql = "
+    SELECT
+      name,
+      purchased_price,
+      purchased_amount,
+      purchased_price * purchased_amount AS subtotal_price
+    FROM purchase_detail JOIN items ON purchase_detail.item_id=items.item_id
+    WHERE history_id=?  ";
+  if($user_id !== null){
+    $sql.= "
+      AND
+        exists(SELECT * FROM purchase_history WHERE history_id=? AND user_id=?)";
+    $params[] = $history_id;
+    $params[] = $user_id;
+  }
+
+  return fetch_all_query($db, $sql, $params);  
 }
