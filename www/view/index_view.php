@@ -41,6 +41,26 @@
       <?php } ?>
       </div>
     </div>
+    <h1>ランキング一覧（上位3アイテム）</h1>
+    <div class="card-deck">
+      <div class="row">
+      <?php foreach($rankings as $item){ ?>
+        <div class="col-6 item">
+          <div class="card h-100 text-center">
+            <div class="card-header">
+              <?php print(h($item['name'])); ?><!-- エスケープ処理の実装 -->
+            </div>
+            <figure class="card-body">
+              <img class="card-img" src="<?php print(h(IMAGE_PATH . $item['image'])); ?>"><!-- エスケープ処理の実装 -->
+              <figcaption>
+                <?php print(number_format(h($item['price']))); ?>円<!-- エスケープ処理の実装 -->
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      <?php } ?>
+      </div>
+    </div>
   </div>
   
 </body>
