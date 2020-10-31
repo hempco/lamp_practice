@@ -206,3 +206,30 @@ function is_valid_item_status($status){
   }
   return $is_valid;
 }
+
+function get_ranking($db){
+  $sql = '
+    SELECT
+      items.item_id, 
+      name,
+      stock,
+      price,
+      image,
+      status,
+      sum(purchased_amount) AS purchased_amount
+    FROM
+      items
+    JOIN
+      purchase_detail
+    ON
+     items.item_id = purchase_detail.item_id
+    GROUP BY
+      items.item_id
+    ORDER BY
+      purchased_amount desc
+    LIMIT
+      3
+  ';
+
+  return fetch_all_query($db, $sql);
+}
