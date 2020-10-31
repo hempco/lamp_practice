@@ -12,7 +12,7 @@
 
     <?php include VIEW_PATH . 'templates/messages.php'; ?>
 
-    <?php if(count($carts) > 0){ ?>
+    <?php if(count($list) > 0){ ?>
       <table class="table table-bordered">
         <thead class="thead-light">
           <tr>
@@ -23,12 +23,17 @@
           </tr>
         </thead>
         <tbody>
-          <?php foreach($carts as $cart){ ?>
+          <?php foreach($list as $row){ ?>
           <tr>
-            <td><?php print(h($cart['name'])); ?></td>
-            <td><?php print(h(number_format($cart['price']))); ?></td>
-            <td><?php print(h(number_format($cart['price'] * $cart['amount']))); ?>円</td>
-            <td><td>
+            <td><?php print(h($row['history_id'])); ?></td>
+            <td><?php print(h($row['purchased_date'])); ?></td>
+            <td><?php print(h(number_format($row['total_price']))); ?>円</td>
+            <td>
+              <form action = "purchase_detail.php">
+                <input type = "submit" value = "購入明細表示">
+                <input type = "hidden" name = "history_id" value = "<?php print(h($row['history_id'])); ?>">
+              </form>
+            </td>
           </tr>
           <?php } ?>
         </tbody>

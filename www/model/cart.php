@@ -185,7 +185,7 @@ function insert_detail($db, $history_id, $item_id, $price, $amount){
         history_id,
         item_id,
         purchased_price,
-        purchaced_amount
+        purchased_amount
       )
     VALUES(?, ?, ?, ?)
   ";
@@ -217,7 +217,7 @@ function get_histories($db, $user_id=null){
       purchase_history.history_id,
       purchased_date,
       sum(purchased_price * purchased_amount) AS total_price
-    FROM purchase_history JOIN purchase_deteil ON purchase_history.history_id=purchase_detail.history_id";
+    FROM purchase_history JOIN purchase_detail ON purchase_history.history_id=purchase_detail.history_id";
   if($user_id !== null){
     $sql.= "
       WHERE
@@ -227,7 +227,7 @@ function get_histories($db, $user_id=null){
   $sql.= " 
     GROUP BY
       purchase_history.history_id";
-  
+
   return fetch_all_query($db, $sql, $params);
 }
 
@@ -239,8 +239,8 @@ function get_history($db, $history_id, $user_id=null){
       purchase_history.history_id,
       purchased_date,
       sum(purchased_price * purchased_amount) AS total_price
-    FROM purchase_history JOIN purchase_deteil ON purchase_history.history_id=purchase_detail.history_id
-    WHERE history_id=?";
+    FROM purchase_history JOIN purchase_detail ON purchase_history.history_id=purchase_detail.history_id
+    WHERE purchase_history.history_id=?";
   if($user_id !== null){
     $sql.= "
       AND
@@ -250,8 +250,8 @@ function get_history($db, $history_id, $user_id=null){
   $sql.= " 
     GROUP BY
       purchase_history.history_id";
-  
-  return fetch_all_query($db, $sql, $params);
+
+  return fetch_query($db, $sql, $params);
 }
 
 
@@ -269,6 +269,9 @@ function get_details($db, $history_id, $user_id=null){
     $sql.= "
       AND
         exists(SELECT * FROM purchase_history WHERE history_id=? AND user_id=?)";
+    $params[] = $history_id;
     $params[] = $user_id;
   }
+
+  return fetch_all_query($db, $sql, $params);  
 }
